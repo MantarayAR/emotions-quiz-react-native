@@ -29,4 +29,4 @@ class Button extends React.Component {
   }
 }
 
-exports.Button = Button;
+module.exports = Button;
