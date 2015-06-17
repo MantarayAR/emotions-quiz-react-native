@@ -36,6 +36,7 @@ var styles = {
   _baseButtonText : {
     color: themeColor,
     textAlign: 'center',
+    fontSize: 22,
   },
   _spaceBottomLarge : {
     marginBottom: 30
