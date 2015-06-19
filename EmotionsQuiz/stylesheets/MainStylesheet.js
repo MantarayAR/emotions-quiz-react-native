@@ -31,12 +31,12 @@ var styles = {
     borderRadius: 5,
     margin: 10,
     padding: 10,
-    width: PixelRatio.getPixelSizeForLayoutSize(90),
+    alignSelf: 'stretch'
   },
   _baseButtonText : {
     color: themeColor,
     textAlign: 'center',
-    fontSize: 22,
+    fontSize: 22
   },
   _spaceBottomLarge : {
     marginBottom: 30
@@ -57,13 +57,11 @@ var styles = {
     left: 0,
     right: 0,
     backgroundColor: '#000000',
-    opacity: 0.0,
+    opacity: 0.8,
   },
   _modalMessageContainer : {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    opacity : 0.0,
+    opacity : 1.0,
   },
   _modalMessageText : {
     fontSize: 32,
@@ -98,9 +96,7 @@ var styles = {
     borderBottomColor: 'black'
   },
   questionModalMessge : {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1
   },
   question : {
     fontSize: 25,
@@ -118,8 +114,7 @@ var styles = {
   questionVariableMessage : {
     borderBottomColor: 'white',
     borderBottomWidth: 5,
-    marginBottom: 30,
-    textAlign: 'center'
+    marginBottom: 30
   },
   questionVariableMessageText : {
     fontSize: 35,

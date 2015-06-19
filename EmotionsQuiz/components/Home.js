@@ -16,23 +16,28 @@ var Home = React.createClass({
   },
   render: function () {
     return (
-      <View style={styles.container}>
-        <Text style={[styles.title, styles._baseText]}>
-          Emotions Quiz
-        </Text>
-        <Text style={[styles.subtitle, styles._baseText]}>
-          How well can you identify emotions?
-        </Text>
-        <HighScore highScore={this.props.highScore}/>
-        <Button
-            title={'Play'}
-            onClick={this.onPlay}
-            styles={styles._baseButton}
-            textStyles={styles._baseButtonText}
-            underlayColor={'white'}/>
-        <Button title={'About'}
-            styles={styles._baseButton}
-            textStyles={styles._baseButtonText}/>
+      <View style={[styles.container, {alignItems: 'stretch'}]}>
+        {/* Create 3 columns */}
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <View style={{flex : 2}}/>
+          <View style={{flex : 6, alignItems: 'center', justifyContent : 'center'}}>
+            <Text style={[styles.title, styles._baseText]}>
+              Emotions Quiz
+            </Text>
+            <Text style={[styles.subtitle, styles._baseText]}>
+              How well can you identify emotions?
+            </Text>
+            <HighScore highScore={this.props.highScore}/>
+            <Button
+                title={'Play'}
+                onClick={this.onPlay}
+                styles={[styles._baseButton ]}
+                textStyles={styles._baseButtonText}
+                underlayColor={'white'}/>
+
+          </View>
+          <View style={{flex:2}}/>
+        </View>
       </View>
     );
   }

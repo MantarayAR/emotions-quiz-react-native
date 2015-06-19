@@ -9,6 +9,7 @@ var AnimationExperimental = require('AnimationExperimental');
 var Emotions = require('../utilities/Emotions');
 var shuffle = require('../utilities/Shuffle');
 var Button = require('./Button');
+var TouchableHighlight = require('TouchableHighlight');
 
 var QuestionSlide = React.createClass({
   goHome : function () {
@@ -40,11 +41,11 @@ var QuestionSlide = React.createClass({
     var answers = shuffle([ancestor, ancestors[0], ancestors[1]]);
 
     return({
-      question: emotion.readible,
-      answerA: answers[0].readible,
-      answerB: answers[1].readible,
-      answerC: answers[2].readible,
-      rightAnswer: ancestor.readible,
+      question: emotion.readable,
+      answerA: answers[0].readable,
+      answerB: answers[1].readable,
+      answerC: answers[2].readable,
+      rightAnswer: ancestor.readable,
       modalWillShow : false,
       showModal : false,
       gotRight : false
@@ -73,24 +74,25 @@ var QuestionSlide = React.createClass({
   },
   componentDidUpdate : function () {
     if ( this.state.modalWillShow ) {
-      AnimationExperimental.startAnimation({
-        node: this.refs.modalBackdrop,
-        duration: 400,
-        easing: 'easeInQuad',
-        property: 'opacity',
-        toValue: 0.8,
-      });
+      // AnimationExperimental.startAnimation({
+      //   node: this.refs.modalBackdrop,
+      //   duration: 400,
+      //   easing: 'easeInQuad',
+      //   property: 'opacity',
+      //   toValue: 0.8,
+      // }, () => this.setState({ modalAnimationDone : 1.0 }));
 
-      AnimationExperimental.startAnimation({
-        node: this.refs.modalContainer,
-        duration: 400,
-        easing: 'easeInQuad',
-        property: 'opacity',
-        toValue: 1
-      });
+      // AnimationExperimental.startAnimation({
+      //   node: this.refs.modalContainer,
+      //   duration: 400,
+      //   easing: 'easeInQuad',
+      //   property: 'opacity',
+      //   toValue: 1
+      // });
 
       this.setState({
-        modalWillShow: false
+        modalWillShow: false,
+        modalAnimationDone : 0.0
       })
     }
   },
@@ -115,21 +117,36 @@ var QuestionSlide = React.createClass({
     } else {
       answerMessage = (
         <View style={styles.questionModalMessge}>
-          <Text style={[styles._modalMessageText, styles._baseText]}>
-            Sorry, the correct answer was
-            {'\n'}
-          </Text>
-          <View style={styles.questionVariableMessage}>
-            <Text style={[styles.questionVariableMessageText, styles._baseText]}>
-             {this.state.rightAnswer}
-            </Text>
+          {/* Create 3 columns */}
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <View style={{flex : 2}}/>
+            <View style={{flex : 6}}>
+
+              {/* Create two rows */}
+              <View style={{flexDirection: 'column', flex : 1}}>
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                  <Text style={[styles._modalMessageText, styles._baseText]}>
+                    Sorry, the correct answer was
+                    {'\n'}
+                  </Text>
+                  <View style={[styles.questionVariableMessage, {alignSelf: 'center'}]}>
+                    <Text style={[styles.questionVariableMessageText, styles._baseText]}>
+                     {this.state.rightAnswer}
+                    </Text>
+                  </View>
+                </View>
+                <View style={{flex: 1, justifyContent: 'center', alignContent: 'stretch'}}>
+                  <Button
+                    title={'← Try Again'}
+                    onClick={this.goHome}
+                    styles={styles._baseButton}
+                    textStyles={styles._baseButtonText}
+                    underlayColor={'white'}/>
+                </View>
+              </View>
+            </View>
+            <View style={{flex : 2}}/>
           </View>
-          <Button
-            title={'← Try Again'}
-            onClick={this.goHome}
-            styles={styles._baseButton}
-            textStyles={styles._baseButtonText}
-            underlayColor={'white'}/>
         </View>
       );
     }
@@ -150,38 +167,54 @@ var QuestionSlide = React.createClass({
     }
     
     return (
-      <View style={styles.container}>
-        <Text style={[styles.question, styles._baseText]}>
-          If someone is feeling
-          {'\n'}
-        </Text>
-        <View style={styles.questionVariable}>
-          <Text style={[styles.questionVariableText, styles._baseText]}>
-            {this.state.question}
-          </Text>
+      <View style={[styles.container, {alignItems: 'stretch'}]}>
+        {/* Create 3 columns */}
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <View style={{flex : 2}}/>
+          <View style={{flex : 6}}>
+
+            {/* Create two rows */}
+            <View style={{flexDirection: 'column', flex : 1}}>
+              <View style={{flex: 1, justifyContent: 'center'}}>
+                <Text style={[styles.question, styles._baseText]}>
+                  If someone is feeling
+                  {'\n'}
+                </Text>
+                <View style={[styles.questionVariable, {alignSelf: 'center'}]}>
+                  <Text style={[styles.questionVariableText, styles._baseText]}>
+                    {this.state.question}
+                  </Text>
+                </View>
+                <Text style={[styles.question, styles._spaceBottomLarge, styles._baseText]}>
+                  {'\n'}
+                  then they are most likely...
+                </Text>
+              </View>
+              <View style={{flex: 1, justifyContent: 'center'}}>
+                <Button
+                    title={this.state.answerA}
+                    onClick={this.onAnswerA}
+                    styles={styles._baseButton}
+                    textStyles={styles._baseButtonText}
+                    underlayColor={'white'}/>
+                <Button
+                    title={this.state.answerB}
+                    onClick={this.onAnswerB}
+                    styles={styles._baseButton}
+                    textStyles={styles._baseButtonText}
+                    underlayColor={'white'}/>
+                <Button
+                    title={this.state.answerC}
+                    onClick={this.onAnswerC}
+                    styles={styles._baseButton}
+                    textStyles={styles._baseButtonText}
+                    underlayColor={'white'}/>
+              </View>
+            </View>
+          </View>
+          <View style={{flex : 2}}/>
         </View>
-        <Text style={[styles.question, styles._spaceBottomLarge, styles._baseText]}>
-          {'\n'}
-          then they are most likely...
-        </Text>
-        <Button
-            title={this.state.answerA}
-            onClick={this.onAnswerA}
-            styles={styles._baseButton}
-            textStyles={styles._baseButtonText}
-            underlayColor={'white'}/>
-        <Button
-            title={this.state.answerB}
-            onClick={this.onAnswerB}
-            styles={styles._baseButton}
-            textStyles={styles._baseButtonText}
-            underlayColor={'white'}/>
-        <Button
-            title={this.state.answerC}
-            onClick={this.onAnswerC}
-            styles={styles._baseButton}
-            textStyles={styles._baseButtonText}
-            underlayColor={'white'}/>
+
         {modal}
       </View>
     );

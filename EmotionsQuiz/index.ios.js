@@ -62,7 +62,8 @@ var EmotionsQuiz = React.createClass({
             gotQuestionWrong={this.gotQuestionWrong}
             gotQuestionRight={this.gotQuestionRight}
             navigator={navigator}
-            name={route.state}/>);
+            name={route.state}/>
+      );
     }
 
     return (<Home navigator={navigator} name={route.state} highScore={this.state.highScore}/>);
