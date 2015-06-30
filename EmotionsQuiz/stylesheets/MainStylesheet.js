@@ -57,11 +57,11 @@ var styles = {
     left: 0,
     right: 0,
     backgroundColor: '#000000',
-    opacity: 0.8,
+    opacity: 0.0,
   },
   _modalMessageContainer : {
     flex: 1,
-    opacity : 1.0,
+    opacity : 0.0,
   },
   _modalMessageText : {
     fontSize: 32,

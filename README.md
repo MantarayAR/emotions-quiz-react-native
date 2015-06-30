@@ -29,4 +29,26 @@ We have already done the following step:
 
 You can now modify code in the project and refresh your iOS simulator to see the changes.
 
+## Testing vs Deploying
+
+When testing, make sure the following like is uncommented in `EmotionsQuiz/AppDelegate.m`:
+
+```obj-c
+jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];
+```
+
+When deploying, comment out that line and uncomment the following line in the same file:
+
+```obj-c
+jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+```
+
+And then run:
+
+```sh
+react-native bundle --minify
+```
+
+in the terminal.
+
 

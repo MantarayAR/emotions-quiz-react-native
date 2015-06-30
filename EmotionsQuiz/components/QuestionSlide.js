@@ -1,4 +1,5 @@
 var styles = require('../stylesheets/MainStylesheet');
+var tweenState = require('react-tween-state');
 var React  = require('react-native');
 var {
   StyleSheet,
@@ -12,6 +13,7 @@ var Button = require('./Button');
 var TouchableHighlight = require('TouchableHighlight');
 
 var QuestionSlide = React.createClass({
+  mixins: [tweenState.Mixin],
   goHome : function () {
     this.props.navigator.popToTop();
   },
@@ -47,6 +49,7 @@ var QuestionSlide = React.createClass({
       answerC: answers[2].readable,
       rightAnswer: ancestor.readable,
       modalWillShow : false,
+      modalOpacity : 0.0,
       showModal : false,
       gotRight : false
     });
@@ -74,26 +77,17 @@ var QuestionSlide = React.createClass({
   },
   componentDidUpdate : function () {
     if ( this.state.modalWillShow ) {
-      // AnimationExperimental.startAnimation({
-      //   node: this.refs.modalBackdrop,
-      //   duration: 400,
-      //   easing: 'easeInQuad',
-      //   property: 'opacity',
-      //   toValue: 0.8,
-      // }, () => this.setState({ modalAnimationDone : 1.0 }));
-
-      // AnimationExperimental.startAnimation({
-      //   node: this.refs.modalContainer,
-      //   duration: 400,
-      //   easing: 'easeInQuad',
-      //   property: 'opacity',
-      //   toValue: 1
-      // });
+      this.tweenState('modalOpacity', {
+        easing: tweenState.easingTypes.easeInQuad,
+        duration: 300,
+        endValue : 0.8,
+        onEnd : () => this.setState({modalAnimationDone : 1.0 })
+      });
 
       this.setState({
         modalWillShow: false,
         modalAnimationDone : 0.0
-      })
+      });
     }
   },
   render: function() {
@@ -102,16 +96,31 @@ var QuestionSlide = React.createClass({
 
     if ( this.state.gotRight ) {
       answerMessage = (
-        <View>
-          <Text style={[styles._modalMessageText, styles._baseText, styles._successText]}>
-            Correct!
-          </Text>
-          <Button
-            title={'Continue →'}
-            onClick={this.goNextQuestion}
-            styles={styles._baseButton}
-            textStyles={styles._baseButtonText}
-            underlayColor={'white'}/>
+        <View style={styles.questionModalMessge}>
+          {/* Create 3 columns */}
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <View style={{flex : 2}}/>
+            <View style={{flex : 6}}>
+
+              {/* Create two rows */}
+              <View style={{flexDirection: 'column', flex : 1}}>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                  <Text style={[styles._modalMessageText, styles._baseText, styles._successText]}>
+                    Correct!
+                  </Text>
+                </View>
+              </View>
+              <View style={{flexDirection: 'column', flex : 1}}>
+                <Button
+                  title={'Continue →'}
+                  onClick={this.goNextQuestion}
+                  styles={styles._baseButton}
+                  textStyles={styles._baseButtonText}
+                  underlayColor={'white'}/>
+              </View>
+            </View>
+            <View style={{flex : 2}}/>
+          </View>
         </View>
       );
     } else {
@@ -155,9 +164,9 @@ var QuestionSlide = React.createClass({
     if ( this.state.showModal ) {
       modal = (
         <View style={[styles._modalContainer]}>
-          <View ref='modalBackdrop' style={styles._modalBackdrop}>
+          <View ref='modalBackdrop' style={[styles._modalBackdrop, { opacity : this.getTweeningValue('modalOpacity') }]}>
           </View>
-          <View ref='modalContainer' style={[styles._modalMessageContainer]}>
+          <View ref='modalContainer' style={[styles._modalMessageContainer, { opacity : (this.getTweeningValue('modalOpacity') + .2) }]}>
             {answerMessage}
           </View>
         </View>
