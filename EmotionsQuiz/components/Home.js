@@ -34,7 +34,9 @@ var Home = React.createClass({
                 styles={[styles._baseButton ]}
                 textStyles={styles._baseButtonText}
                 underlayColor={'white'}/>
-
+            <Text style={[styles.subtitle, styles._baseText]}>
+              Made by Paugme.com
+            </Text>
           </View>
           <View style={{flex:2}}/>
         </View>

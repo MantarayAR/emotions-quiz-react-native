@@ -1,5 +1,5 @@
 var shuffle = require('./Shuffle');
-var emotionsData = require('../data/emotions.json');
+var emotionsData = require('../data/emotions-alternative.json');
 
 var Emotions = {
   getRandom : function ( tiers ) {
