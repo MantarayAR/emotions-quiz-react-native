@@ -25,6 +25,11 @@ We have already done the following step:
 ## Building and Testing
 
 1. Open `EmotionsQuiz/EmotionsQuiz.xcodeproj`
+
+The is an extra step you will need to do here in order to link a library that has `RTCRootView.h`:
+
+> Import file under "Build Phase" into the "Link Binary with Library". Click the plus under "Link Binary with Library", and hit "Add Other...". Then navigate to the directory node_modules -> react-native -> React -> Base -> RCTRootView.m
+
 2. Run in Xcode.
 
 You can now modify code in the project and refresh your iOS simulator to see the changes.
